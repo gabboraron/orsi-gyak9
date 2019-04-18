@@ -1,5 +1,6 @@
-
+import java.util.*;
 import java.rmi.registry.*;
+import java.util.Random;
 
 public class LottoServerDeploy
 {
@@ -13,23 +14,22 @@ public class LottoServerDeploy
         Registry registry = LocateRegistry.createRegistry(PORT);
         // Registry registry = LocateRegistry.getRegistry();
         // Create winnners
-		List<CurrentAccount> winnersList = new ArrayList<CurrentAccount>();
-		Iterator<CurrentAccount> itr = winnersList.iterator();
-		for(int idx = 0; idx<numberOfWiningNumbers; ++idx){
-			List<CurrentAccount> currentWinnersList = new ArrayList<CurrentAccount>();
-			while (itr.hasNext()) {
-			    int winner = itr.next();
-			    currentWinnersList.add(winner);
-			}	
-			//while not found a doesent creted in currentwinner
+	    Set<Integer> winnersList = new HashSet<Integer>(); 
+		//Iterator<CurrentAccount> itr = winnersList.iterator();
+		//for(int idx = 0; idx<numberOfWiningNumbers; ++idx){
+		while(winnersList.size()<numberOfWiningNumbers){
+        	Random rand = new Random();
+            int nr = rand.nextInt(numberOfAllNumbers);
+            winnersList.add(nr);
 		}
+        System.out.println(winnersList);
 
         // Create LottoServers
         for(int idx = 0; idx<numberOfAllNumbers; ++idx){
-        	if (winnersList.contains(conta1)) {
-        		registry.rebind(idx, new LottoServer(idx,true));
+        	if (winnersList.contains(idx)) {
+        		registry.rebind(String.valueOf(idx), new LottoServer(idx,true));
 			} else {
-        		registry.rebind(idx, new LottoServer(idx,false));
+        		registry.rebind(String.valueOf(idx), new LottoServer(idx,false));
 			}
         }
      }

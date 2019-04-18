@@ -3,33 +3,20 @@ import java.util.Random;
 
 public class LottoServer
     extends java.rmi.server.UnicastRemoteObject
-    implements Remote
+    implements LottoInterface
 {
-    winners[] = int[4];
-    allCreated = false;
-    idx = 0
-    while !allCreated{
-        winners[idx] = random
+    boolean winner = false;
+    int id = 0;
+
+    public boolean nyeroszamE() throws RemoteException
+    {
+        return winner;    
     }
 
 
-    boolean nyeroszamE() throws RemoteException
+    public LottoServer(int idx, boolean isAWinner) throws RemoteException
     {
-        
-    }
-
-    public LottoServer() throws RemoteException
-    {
-        this("default");
-    }
-
-    public LottoServer(String appendTxt) throws RemoteException
-    {
-        this.appendTxt = appendTxt;
-    }
-
-    public String appendTxt(String str) throws RemoteException
-    {
-        return str + appendTxt;
+        id      = idx;
+        winner  = isAWinner;
     }
 }
